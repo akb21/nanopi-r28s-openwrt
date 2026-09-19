@@ -62,15 +62,12 @@ make defconfig
 make download -j"$(nproc)"
 make -j"$(nproc)" V=s
 
-rm -rf "${OUT:?}"/*
-find bin/targets/rockchip/armv8 -maxdepth 1 -type f -print0 |
-while IFS= read -r -d '' f; do
-  cp -v "$f" "${OUT}/"
-done
-
+# The only deliverable is the flashable SD-card image. The rockchip target also
+# emits kernel, rootfs tarballs, profiles.json, buildinfo and sha256sums, but
+# those are build plumbing, not something you write to a card.
 shopt -s nullglob
-sq=( "${OUT}"/*friendlyarm_nanopi-r28s-squashfs-sysupgrade.img.gz )
-ex=( "${OUT}"/*friendlyarm_nanopi-r28s-ext4-sysupgrade.img.gz )
+sq=( bin/targets/rockchip/armv8/*friendlyarm_nanopi-r28s-squashfs-sysupgrade.img.gz )
+ex=( bin/targets/rockchip/armv8/*friendlyarm_nanopi-r28s-ext4-sysupgrade.img.gz )
 
 if (( ${#sq[@]} != 1 )); then
   echo "ERROR: squashfs sysupgrade image was not produced" >&2
@@ -81,6 +78,9 @@ if (( ${#ex[@]} != 1 )); then
   exit 2
 fi
 
+rm -rf "${OUT:?}"/*
+cp -v "${sq[@]}" "${ex[@]}" "${OUT}/"
+
 echo
 echo "Build complete:"
-printf '  %s\n' "${sq[0]}" "${ex[0]}"
+printf '  %s\n' "${OUT}/${sq[0]##*/}" "${OUT}/${ex[0]##*/}"
