@@ -23,6 +23,17 @@ Expected files:
 
 The Rockchip image recipe creates the boot partition, root partition and embeds the Rockchip U-Boot image at the standard sector offset used by this target.
 
+Both are complete disk images: write either one straight to the card with no unpacking beyond gunzip. Flash the `squashfs` one unless you specifically want a writable root filesystem; squashfs keeps the root filesystem read-only with an overlay, which survives power loss on an SD card far better than ext4.
+
+```bash
+gunzip -c openwrt-...-friendlyarm_nanopi-r28s-squashfs-sysupgrade.img.gz |
+  sudo dd of=/dev/sdX bs=4M conv=fsync status=progress
+```
+
+The build collects only these two images into `output/`. The Rockchip target also produces a kernel, rootfs tarballs, `profiles.json`, buildinfo and `sha256sums`, but those are build plumbing and are left in `bin/targets/rockchip/armv8/`.
+
+If you only ever flash one of the two filesystem variants, drop the other from `config/r28s.config` (`CONFIG_TARGET_ROOTFS_SQUASHFS` or `CONFIG_TARGET_ROOTFS_EXT4FS`) and the matching entry in `scripts/build.sh`.
+
 ## Build
 
 On a Linux host:
