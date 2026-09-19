@@ -27,10 +27,59 @@ define U-Boot/nanopi-zero2-rk3528
 endef
 '''
 
+# OpenWrt 25.12.5 ships its uboot-rockchip patches authored against U-Boot
+# 2025.10. U-Boot 2026.07 already carries every change below, so patch(1)
+# rejects them with "previously applied (or reversed)" and aborts the package
+# build. Verified against the upstream 2026.07 tarball: each entry is either
+# entirely upstream or touches only boards this target does not build.
+REDUNDANT_UBOOT_PATCHES = (
+    "001-spi-rockchip_sfc-Support-sclk_x2-version.patch",
+    "002-rockchip-spl-Add-a-read_brom_bootsource_id-helper.patch",
+    "004-rockchip-rk3576-Add-SPI-Flash-boot-support.patch",
+    "005-board-rockchip-Add-Radxa-ROCK-4D.patch",
+    "006-arm64-dts-rockchip-Add-Radxa-ROCK-2A-2F.patch",
+    "007-board-rockchip-Add-Radxa-ROCK-2A-2F.patch",
+    "008-board-rockchip-add-Lunzn-FastRhino-R66S.patch",
+    "009-mmc-rockchip_sdhci-Set-xx_TAP_VALUE-for-RK3528.patch",
+    "102-rockchip-Add-initial-RK3582-support.patch",
+    "103-rockchip-rk3588-generic-Enable-support-for-RK3582.patch",
+    "104-rockchip-rk3588s-rock-5c-Add-support-for-ROCK-5C-Lit.patch",
+    "105-1-arm64-dts-rockchip-add-LinkEase-EasePi-R1.patch",
+)
+
+# Still applicable to 2026.07; applied by the normal OpenWrt patch step.
+KEPT_UBOOT_PATCHES = (
+    "003-rockchip-rk3528-Implement-read_brom_bootsource_id.patch",
+    "101-nanopc-t4-fix-memory-unstability.patch",
+    "105-2-board-rockchip-add-LinkEase-EasePi-R1.patch",
+    "107-board-rockchip-add-HINLINK-H28K.patch",
+)
+
 def replace_once(s, old, new, label):
     if old not in s:
         raise RuntimeError(f"{label}: expected text not found")
     return s.replace(old, new, 1)
+
+def prune_uboot_patches(ow):
+    patch_dir = ow / "package/boot/uboot-rockchip/patches"
+    if not patch_dir.is_dir():
+        raise RuntimeError(f"uboot-rockchip patch directory not found: {patch_dir}")
+
+    for name in REDUNDANT_UBOOT_PATCHES:
+        p = patch_dir / name
+        if not p.is_file():
+            raise RuntimeError(f"uboot-rockchip patch missing: {name}")
+        p.unlink()
+
+    remaining = {p.name for p in patch_dir.iterdir() if p.is_file() and p.suffix == ".patch"}
+    if remaining != set(KEPT_UBOOT_PATCHES):
+        raise RuntimeError(
+            "uboot-rockchip patch set differs from what U-Boot "
+            f"{UBOOT_VERSION} expects; kept {sorted(remaining)}, "
+            f"expected {sorted(KEPT_UBOOT_PATCHES)}"
+        )
+    print(f"Pruned {len(REDUNDANT_UBOOT_PATCHES)} U-Boot {UBOOT_VERSION} "
+          f"patches already upstream; kept {len(KEPT_UBOOT_PATCHES)}")
 
 def main():
     if len(sys.argv) != 2:
@@ -73,6 +122,8 @@ def main():
         )
 
     ub.write_text(s)
+
+    prune_uboot_patches(ow)
 
 if __name__ == "__main__":
     main()
