@@ -3,4 +3,5 @@ output/
 __pycache__/
 *.pyc
 
+logs_*.zip
 .DS_Store
