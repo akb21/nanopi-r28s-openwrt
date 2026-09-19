@@ -9,15 +9,53 @@ TAG="v25.12.5"
 
 mkdir -p "${WORK}" "${OUT}"
 
-if [[ ! -d "${OW}/.git" ]]; then
+# Build state that a warm CI cache may have restored. It must survive the
+# re-clone below, otherwise every run would throw away the host tools and the
+# cross toolchain and rebuild them from scratch (~35 minutes of work).
+# The workflow caches staging_dir/{host,toolchain-*} and
+# build_dir/{host,toolchain-*}; dl/ is not cached but is cheap to keep locally.
+CACHED_BUILD_STATE=(staging_dir build_dir dl)
+
+reclone_openwrt() {
+  local stash="${WORK}/.stash" d
+  rm -rf "${stash}"
+  mkdir -p "${stash}"
+  for d in "${CACHED_BUILD_STATE[@]}"; do
+    if [[ -e "${OW}/${d}" ]]; then
+      mkdir -p "${stash}/$(dirname "${d}")"
+      mv "${OW}/${d}" "${stash}/${d}"
+    fi
+  done
   rm -rf "${OW}"
   git clone --depth 1 --branch "${TAG}" https://github.com/openwrt/openwrt.git "${OW}"
+  for d in "${CACHED_BUILD_STATE[@]}"; do
+    if [[ -e "${stash}/${d}" ]]; then
+      mkdir -p "${OW}/$(dirname "${d}")"
+      mv "${stash}/${d}" "${OW}/${d}"
+    fi
+  done
+  rm -rf "${stash}"
+}
+
+if [[ ! -d "${OW}/.git" ]]; then
+  reclone_openwrt
 fi
 
 python3 "${ROOT}/scripts/import-r28s-dts.py" "${OW}"
 python3 "${ROOT}/scripts/patch-openwrt.py" "${OW}"
 
 cp "${ROOT}/config/r28s.config" "${OW}/.config"
+
+# rules.mk derives CCACHE_DIR from CONFIG_CCACHE_DIR and exports it, so an
+# environment variable alone is not enough. Point it at a caller-chosen path
+# (outside .work/openwrt/) when one is given.
+if [[ -n "${CCACHE_DIR:-}" ]]; then
+  if ! command -v ccache >/dev/null 2>&1; then
+    echo "ERROR: CCACHE_DIR is set but ccache is not installed" >&2
+    exit 2
+  fi
+  printf 'CONFIG_CCACHE_DIR="%s"\n' "${CCACHE_DIR}" >> "${OW}/.config"
+fi
 
 cd "${OW}"
 make defconfig

@@ -4,11 +4,24 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+    paths-ignore:
+      - '**.md'
+
+# A push while a build is running supersedes it; do not pay for both.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 180
+    timeout-minutes: 240
+    env:
+      # build.sh turns this into CONFIG_CCACHE_DIR; rules.mk only reads the
+      # config value, so the variable has to be passed through the script.
+      CCACHE_DIR: ${{ github.workspace }}/.ccache
+      CCACHE_MAXSIZE: 2G
+      CCACHE_COMPILERCHECK: content
     steps:
       - uses: actions/checkout@v4
 
@@ -27,9 +40,73 @@ jobs:
           python3 -m py_compile scripts/*.py
           python3 scripts/validate-project.py
 
+      # Host tools and the cross toolchain are ~35 of the ~50 minutes the build
+      # spends before it even starts compiling packages. They are a pure
+      # function of the OpenWrt tag and the config, so cache them verbatim.
+      # All three stamp locations must be restored: OpenWrt gates a component on
+      # .configured -> .built in build_dir and only _installed in staging_dir,
+      # so a partial restore rebuilds the component anyway.
+      # build.sh preserves these across the re-clone.
+      - name: Restore host tools and toolchain
+        id: toolchain
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .work/openwrt/staging_dir/host
+            .work/openwrt/staging_dir/toolchain-*
+            .work/openwrt/build_dir/host
+            .work/openwrt/build_dir/toolchain-*
+          key: openwrt-toolchain-${{ hashFiles('config/r28s.config') }}
+
+      # ccache deliberately uses a rolling key: it has to be rewritten every run
+      # to keep growing. restore-keys always gives the newest matching prefix.
+      - name: Restore ccache
+        uses: actions/cache/restore@v4
+        with:
+          path: .ccache
+          key: ccache-${{ github.ref }}-${{ github.run_id }}
+          restore-keys: |
+            ccache-${{ github.ref }}-
+            ccache-refs/heads/main-
+
       - name: Build
+        run: ./scripts/build.sh
+
+      # actions/cache/save fails outright when a path does not exist, which
+      # would mask the real error when the build dies before it ever compiles
+      # anything. Decide what is worth saving first.
+      - name: Check which caches can be saved
+        id: cacheable
+        if: always()
         run: |
-          ./scripts/build.sh
+          if [[ -d .work/openwrt/staging_dir && -d .work/openwrt/build_dir ]]; then
+            echo "toolchain=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "toolchain=false" >> "$GITHUB_OUTPUT"
+          fi
+          if [[ -d .ccache ]]; then
+            echo "ccache=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ccache=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Save host tools and toolchain
+        if: always() && steps.cacheable.outputs.toolchain == 'true' && steps.toolchain.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .work/openwrt/staging_dir/host
+            .work/openwrt/staging_dir/toolchain-*
+            .work/openwrt/build_dir/host
+            .work/openwrt/build_dir/toolchain-*
+          key: openwrt-toolchain-${{ hashFiles('config/r28s.config') }}
+
+      - name: Save ccache
+        if: always() && steps.cacheable.outputs.ccache == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: .ccache
+          key: ccache-${{ github.ref }}-${{ github.run_id }}
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
