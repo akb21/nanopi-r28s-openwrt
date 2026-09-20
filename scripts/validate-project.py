@@ -16,12 +16,21 @@ required = [
     "CONFIG_TARGET_ROOTFS_EXT4FS=y",
     "CONFIG_TARGET_IMAGES_GZIP=y",
     "CONFIG_PACKAGE_kmod-r8169=y",
+    "CONFIG_PACKAGE_luci=y",
+    "CONFIG_PACKAGE_kmod-nf-conntrack-netlink=y",
 ]
 missing = [x for x in required if x not in cfg]
 if missing:
     raise SystemExit("Missing config entries: " + ", ".join(missing))
 
-if "v25.12.5" not in (root / "scripts" / "build.sh").read_text():
+build = (root / "scripts" / "build.sh").read_text()
+if "v25.12.5" not in build:
     raise SystemExit("OpenWrt is not pinned to v25.12.5")
+
+# Feeds carry LuCI and most userland packages. Without them the image silently
+# loses LuCI and distfeeds.list loses its per-feed entries.
+for step in ("scripts/feeds update -a", "scripts/feeds install -a"):
+    if step not in build:
+        raise SystemExit(f"build.sh does not run '{step}'")
 
 print("Project structure/config validation: PASS")
