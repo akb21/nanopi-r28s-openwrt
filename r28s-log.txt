@@ -1,0 +1,770 @@
+root@OpenWrt:~# cat /proc/cmdline
+console=ttyS0,1500000 earlycon=uart8250,mmio32,0xff9f0000 root=PARTUUID=5452574f-02 rw rootwait
+
+
+root@OpenWrt:~# dmesg > /tmp/dmesg.txt
+root@OpenWrt:~# logread > /tmp/logread.txt
+root@OpenWrt:~# echo "=====START====="
+=====START=====
+root@OpenWrt:~# cat /tmp/dmesg.txt
+[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd034]
+[    0.000000] Linux version 6.12.94 (runner@runnervmlun5p) (aarch64-openwrt-linux-musl-gcc (OpenWrt GCC 14.3.0 r33051-f5dae5ece4) 14.3.0, GNU ld (GNU Binutils) 2.44) #0 SMP Mon Jun 29 12:59:20 2026
+[    0.000000] random: crng init done
+[    0.000000] Machine model: FriendlyElec NanoPi R28S
+[    0.000000] earlycon: uart8250 at MMIO32 0x00000000ff9f0000 (options '')
+[    0.000000] printk: legacy bootconsole [uart8250] enabled
+[    0.000000] OF: reserved mem: 0x000000000010f000..0x000000000010f0ff (0 KiB) nomap non-reusable shmem@10f000
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000000200000-0x000000003fffffff]
+[    0.000000]   DMA32    empty
+[    0.000000]   Normal   empty
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000000200000-0x000000003fffffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000000200000-0x000000003fffffff]
+[    0.000000] On node 0, zone DMA: 512 pages in unavailable ranges
+[    0.000000] cma: Reserved 16 MiB at 0x000000003dc00000 on node -1
+[    0.000000] psci: probing for conduit method from DT.
+[    0.000000] psci: PSCIv1.1 detected in firmware.
+[    0.000000] psci: Using standard PSCI v0.2 function IDs
+[    0.000000] psci: MIGRATE_INFO_TYPE not supported.
+[    0.000000] psci: SMC Calling Convention v1.2
+[    0.000000] percpu: Embedded 21 pages/cpu s46680 r8192 d31144 u86016
+[    0.000000] pcpu-alloc: s46680 r8192 d31144 u86016 alloc=21*4096
+[    0.000000] pcpu-alloc: [0] 0 [0] 1 [0] 2 [0] 3
+[    0.000000] Detected VIPT I-cache on CPU0
+[    0.000000] alternatives: applying boot alternatives
+[    0.000000] Kernel command line: console=ttyS0,1500000 earlycon=uart8250,mmio32,0xff9f0000 root=PARTUUID=5452574f-02 rw rootwait
+[    0.000000] Dentry cache hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 65536 (order: 7, 524288 bytes, linear)
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 261632
+[    0.000000] mem auto-init: stack:off, heap alloc:off, heap free:off
+[    0.000000] software IO TLB: SWIOTLB bounce buffer size adjusted to 0MB
+[    0.000000] software IO TLB: area num 4.
+[    0.000000] software IO TLB: mapped [mem 0x000000003da80000-0x000000003db80000] (1MB)
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+[    0.000000] rcu: Hierarchical RCU implementation.
+[    0.000000] rcu:     RCU event tracing is enabled.
+[    0.000000] rcu:     RCU restricting CPUs from NR_CPUS=256 to nr_cpu_ids=4.
+[    0.000000]  Tracing variant of Tasks RCU enabled.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 10 jiffies.
+[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
+[    0.000000] RCU Tasks Trace: Setting shift to 2 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=4.
+[    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
+[    0.000000] Root IRQ handler: gic_handle_irq
+[    0.000000] GIC: Using split EOI/Deactivate mode
+[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.000000] arch_timer: cp15 timer(s) running at 24.00MHz (phys).
+[    0.000000] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x588fe9dc0, max_idle_ns: 440795202592 ns
+[    0.000000] sched_clock: 56 bits at 24MHz, resolution 41ns, wraps every 4398046511097ns
+[    0.000965] Console: colour dummy device 80x25
+[    0.001408] Calibrating delay loop (skipped), value calculated using timer frequency.. 48.00 BogoMIPS (lpj=240000)
+[    0.002360] pid_max: default: 32768 minimum: 301
+[    0.002956] Mount-cache hash table entries: 2048 (order: 2, 16384 bytes, linear)
+[    0.003640] Mountpoint-cache hash table entries: 2048 (order: 2, 16384 bytes, linear)
+[    0.005087] cacheinfo: Unable to detect cache hierarchy for CPU 0
+[    0.006307] rcu: Hierarchical SRCU implementation.
+[    0.006759] rcu:     Max phase no-delay instances is 1000.
+[    0.007356] Timer migration: 1 hierarchy levels; 8 children per group; 1 crossnode level
+[    0.008297] smp: Bringing up secondary CPUs ...
+[    0.009054] Detected VIPT I-cache on CPU1
+[    0.009132] CPU1: Booted secondary processor 0x0000000001 [0x410fd034]
+[    0.009534] Detected VIPT I-cache on CPU2
+[    0.009603] CPU2: Booted secondary processor 0x0000000002 [0x410fd034]
+[    0.009980] Detected VIPT I-cache on CPU3
+[    0.010049] CPU3: Booted secondary processor 0x0000000003 [0x410fd034]
+[    0.010131] smp: Brought up 1 node, 4 CPUs
+[    0.013389] SMP: Total of 4 processors activated.
+[    0.013820] CPU: All CPU(s) started at EL2
+[    0.014197] CPU features: detected: 32-bit EL0 Support
+[    0.014669] CPU features: detected: CRC32 instructions
+[    0.015172] alternatives: applying system-wide alternatives
+[    0.015828] CPU features: emulated: Privileged Access Never (PAN) using TTBR0_EL1 switching
+[    0.016746] Memory: 986884K/1046528K available (10176K kernel code, 2460K rwdata, 3160K rodata, 1408K init, 741K bss, 39780K reserved, 16384K cma-reserved)
+[    0.022221] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+[    0.023141] futex hash table entries: 1024 (order: 4, 65536 bytes, linear)
+[    0.024089] 28240 pages in range for non-PLT usage
+[    0.024102] 519760 pages in range for PLT usage
+[    0.024669] pinctrl core: initialized pinctrl subsystem
+[    0.027648] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.029159] DMA: preallocated 128 KiB GFP_KERNEL pool for atomic allocations
+[    0.030404] DMA: preallocated 128 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+[    0.031868] DMA: preallocated 128 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
+[    0.033975] thermal_sys: Registered thermal governor 'step_wise'
+[    0.033989] thermal_sys: Registered thermal governor 'power_allocator'
+[    0.034607] cpuidle: using governor menu
+[    0.035648] ASID allocator initialised with 65536 entries
+[    0.036243] Serial: AMBA PL011 UART driver
+[    0.041143] /soc/interrupt-controller@fed01000: Fixed dependency cycle(s) with /soc/interrupt-controller@fed01000
+[    0.042480] /soc/pcie@fe000000: Fixed dependency cycle(s) with /soc/pcie@fe000000/legacy-interrupt-controller
+[    0.046658] rockchip-pm-domain ff600000.power-management:power-controller: power-domain: failed to get clk at index 0: -517
+[    0.047693] rockchip-pm-domain ff600000.power-management:power-controller: failed to handle node power-domain: -517
+[    0.053822] HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+[    0.054457] HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
+[    0.055032] HugeTLB: registered 32.0 MiB page size, pre-allocated 0 pages
+[    0.055652] HugeTLB: 0 KiB vmemmap can be freed for a 32.0 MiB page
+[    0.056226] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+[    0.056847] HugeTLB: 0 KiB vmemmap can be freed for a 2.00 MiB page
+[    0.057421] HugeTLB: registered 64.0 KiB page size, pre-allocated 0 pages
+[    0.058043] HugeTLB: 0 KiB vmemmap can be freed for a 64.0 KiB page
+[    0.059536] cryptd: max_cpu_qlen set to 1000
+[    0.060629] iommu: Default domain type: Passthrough
+[    0.061399] SCSI subsystem initialized
+[    0.061897] usbcore: registered new interface driver usbfs
+[    0.062421] usbcore: registered new interface driver hub
+[    0.062929] usbcore: registered new device driver usb
+[    0.063626] pps_core: LinuxPPS API ver. 1 registered
+[    0.064083] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.064923] PTP clock support registered
+[    0.065345] scmi_core: SCMI protocol bus registered
+[    0.066814] clocksource: Switched to clocksource arch_sys_counter
+[    0.067607] VFS: Disk quotas dquot_6.6.0
+[    0.067990] VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+[    0.070955] NET: Registered PF_INET protocol family
+[    0.071509] IP idents hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    0.072929] tcp_listen_portaddr_hash hash table entries: 512 (order: 1, 8192 bytes, linear)
+[    0.073710] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.074423] TCP established hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    0.075177] TCP bind hash table entries: 8192 (order: 6, 262144 bytes, linear)
+[    0.076008] TCP: Hash tables configured (established 8192 bind 8192)
+[    0.076746] MPTCP token hash table entries: 1024 (order: 3, 24576 bytes, linear)
+[    0.077527] UDP hash table entries: 512 (order: 2, 16384 bytes, linear)
+[    0.078153] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes, linear)
+[    0.078931] NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    0.079480] PCI: CLS 0 bytes, default 64
+[    0.080819] workingset: timestamp_bits=46 max_order=18 bucket_order=0
+[    0.081784] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+[    0.082326] jffs2: version 2.2 (NAND) (SUMMARY) (ZLIB) (LZMA) (RTIME) (CMODE_PRIORITY) (c) 2001-2006 Red Hat, Inc.
+[    0.083736] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 248)
+[    0.084550] io scheduler mq-deadline registered
+[    0.088071] ledtrig-cpu: registered to indicate activity on CPUs
+[    0.096673] dma-pl330 ffd60000.dma-controller: Loaded driver for PL330 DMAC-241330
+[    0.097431] dma-pl330 ffd60000.dma-controller:       DBUFF-128x8bytes Num_Chans-8 Num_Peri-32 Num_Events-16
+[    0.099263] Serial: 8250/16550 driver, 12 ports, IRQ sharing enabled
+[    0.101928] printk: legacy console [ttyS0] disabled
+[    0.102605] ff9f0000.serial: ttyS0 at MMIO 0xff9f0000 (irq = 24, base_baud = 1500000) is a 16550A
+[    0.103513] printk: legacy console [ttyS0] enabled
+[    0.104372] printk: legacy bootconsole [uart8250] disabled
+[    0.108905] loop: module loaded
+[    0.109200] mtip32xx Version 1.3.1
+[    0.113401] usbcore: registered new interface driver usb-storage
+[    0.114043] i2c_dev: i2c /dev entries driver
+[    0.115823] sdhci: Secure Digital Host Controller Interface driver
+[    0.116375] sdhci: Copyright(c) Pierre Ossman
+[    0.116757] Synopsys Designware Multimedia Card Interface Driver
+[    0.117570] sdhci-pltfm: SDHCI platform and OF driver helper
+[    0.119240] arm-scmi arm-scmi.0.auto: Using scmi_smc_transport
+[    0.119765] arm-scmi arm-scmi.0.auto: SCMI max-rx-timeout: 30ms
+[    0.120372] scmi_protocol scmi_dev.1: Enabled polling mode TX channel - prot_id:16
+[    0.121208] arm-scmi arm-scmi.0.auto: SCMI Notifications - Core Enabled.
+[    0.121829] arm-scmi arm-scmi.0.auto: SCMI Protocol v2.0 'rockchip:' Firmware version 0x0
+[    0.124476] NET: Registered PF_INET6 protocol family
+[    0.125596] Segment Routing with IPv6
+[    0.125960] In-situ OAM (IOAM) with IPv6
+[    0.126345] NET: Registered PF_PACKET protocol family
+[    0.126980] 8021q: 802.1Q VLAN Support v1.8
+[    0.146540] gpio gpiochip0: Static allocation of GPIO base is deprecated, use dynamic allocation.
+[    0.147523] rockchip-gpio ff610000.gpio: probed /pinctrl/gpio@ff610000
+[    0.154763] ffa00000.serial: ttyS2 at MMIO 0xffa00000 (irq = 27, base_baud = 1500000) is a 16550A
+[    0.156343] rk_gmac-dwmac ffbe0000.ethernet: IRQ sfty not found
+[    0.156999] rk_gmac-dwmac ffbe0000.ethernet: PTP uses main clock
+[    0.157649] rk_gmac-dwmac ffbe0000.ethernet: clock input or output? (output).
+[    0.158276] rk_gmac-dwmac ffbe0000.ethernet: Can not read property: tx_delay.
+[    0.158899] rk_gmac-dwmac ffbe0000.ethernet: set tx_delay to 0x30
+[    0.159432] rk_gmac-dwmac ffbe0000.ethernet: Can not read property: rx_delay.
+[    0.160055] rk_gmac-dwmac ffbe0000.ethernet: set rx_delay to 0x10
+[    0.160595] rk_gmac-dwmac ffbe0000.ethernet: integrated PHY? (no).
+[    0.166157] rk_gmac-dwmac ffbe0000.ethernet: init for RGMII_ID
+[    0.166878] rk_gmac-dwmac ffbe0000.ethernet: User ID: 0x40, Synopsys ID: 0x51
+[    0.167519] rk_gmac-dwmac ffbe0000.ethernet:         DWMAC4/5
+[    0.167972] rk_gmac-dwmac ffbe0000.ethernet: DMA HW capability register supported
+[    0.168626] rk_gmac-dwmac ffbe0000.ethernet: RX Checksum Offload Engine supported
+[    0.169279] rk_gmac-dwmac ffbe0000.ethernet: TX Checksum insertion supported
+[    0.169894] rk_gmac-dwmac ffbe0000.ethernet: Wake-Up On Lan supported
+[    0.170457] rk_gmac-dwmac ffbe0000.ethernet: TSO supported
+[    0.170938] rk_gmac-dwmac ffbe0000.ethernet: Enable RX Mitigation via HW Watchdog Timer
+[    0.171638] rk_gmac-dwmac ffbe0000.ethernet: Enabled RFS Flow TC (entries=10)
+[    0.172262] rk_gmac-dwmac ffbe0000.ethernet: TSO feature enabled
+[    0.172787] rk_gmac-dwmac ffbe0000.ethernet: SPH feature enabled
+[    0.173313] rk_gmac-dwmac ffbe0000.ethernet: Using 40/40 bits DMA host/device width
+[    0.176002] dwc3 fe500000.usb: Configuration mismatch. dr_mode forced to host
+[    0.180668] xhci-hcd xhci-hcd.1.auto: xHCI Host Controller
+[    0.181175] xhci-hcd xhci-hcd.1.auto: new USB bus registered, assigned bus number 1
+[    0.181946] xhci-hcd xhci-hcd.1.auto: USB3 root hub has no ports
+[    0.182474] xhci-hcd xhci-hcd.1.auto: hcc params 0x0220fe64 hci version 0x110 quirks 0x0000808002000010
+[    0.183327] xhci-hcd xhci-hcd.1.auto: irq 30, io mem 0xfe500000
+[    0.184293] hub 1-0:1.0: USB hub found
+[    0.184645] hub 1-0:1.0: 1 port detected
+[    0.188220] cpufreq: cpufreq_online: CPU0: Running at unlisted initial frequency: 408000 KHz, changing to: 1200000 KHz
+[    0.190768] gpio gpiochip1: Static allocation of GPIO base is deprecated, use dynamic allocation.
+[    0.190838] dwmmc_rockchip ffc10000.mmc: IDMAC supports 32-bit address mode.
+[    0.190995] dwmmc_rockchip ffc30000.mmc: IDMAC supports 32-bit address mode.
+[    0.191014] dwmmc_rockchip ffc30000.mmc: Using internal DMA controller.
+[    0.191020] dwmmc_rockchip ffc30000.mmc: Version ID is 270a
+[    0.191055] dwmmc_rockchip ffc30000.mmc: DW MMC controller at irq 34,32 bit host data width,256 deep fifo
+[    0.191697] rockchip-gpio ffaf0000.gpio: probed /pinctrl/gpio@ffaf0000
+[    0.192194] dwmmc_rockchip ffc10000.mmc: Using internal DMA controller.
+[    0.193048] gpio gpiochip2: Static allocation of GPIO base is deprecated, use dynamic allocation.
+[    0.193364] dwmmc_rockchip ffc10000.mmc: Version ID is 270a
+[    0.193945] rockchip-gpio ffb00000.gpio: probed /pinctrl/gpio@ffb00000
+[    0.194698] dwmmc_rockchip ffc10000.mmc: DW MMC controller at irq 33,32 bit host data width,256 deep fifo
+[    0.195444] gpio gpiochip3: Static allocation of GPIO base is deprecated, use dynamic allocation.
+[    0.199395] rockchip-gpio ffb10000.gpio: probed /pinctrl/gpio@ffb10000
+[    0.200247] gpio gpiochip4: Static allocation of GPIO base is deprecated, use dynamic allocation.
+[    0.201127] rockchip-gpio ffb20000.gpio: probed /pinctrl/gpio@ffb20000
+[    0.203573] rockchip-dw-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
+[    0.204270] rockchip-dw-pcie fe000000.pcie:       IO 0x00fc100000..0x00fc1fffff -> 0x00fc100000
+[    0.205038] rockchip-dw-pcie fe000000.pcie:      MEM 0x00fc200000..0x00fdffffff -> 0x00fc200000
+[    0.205801] rockchip-dw-pcie fe000000.pcie:      MEM 0x0100000000..0x013fffffff -> 0x0100000000
+[    0.206725] rockchip-dw-pcie fe000000.pcie: iATU: unroll T, 8 ob, 8 ib, align 64K, limit 8G
+[    0.426826] rockchip-dw-pcie fe000000.pcie: PCIe Gen.1 x1 link up
+[    0.427665] rockchip-dw-pcie fe000000.pcie: PCI host bridge to bus 0000:00
+[    0.428282] pci_bus 0000:00: root bus resource [bus 00-ff]
+[    0.428768] pci_bus 0000:00: root bus resource [io  0x0000-0xfffff] (bus address [0xfc100000-0xfc1fffff])
+[    0.429603] pci_bus 0000:00: root bus resource [mem 0xfc200000-0xfdffffff]
+[    0.430205] pci_bus 0000:00: root bus resource [mem 0x100000000-0x13fffffff]
+[    0.430852] pci 0000:00:00.0: [1d87:3528] type 01 class 0x060400 PCIe Root Port
+[    0.431511] pci 0000:00:00.0: PCI bridge to [bus 01-ff]
+[    0.431974] pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
+[    0.432510] pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff]
+[    0.433109] pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff 64bit pref]
+[    0.433835] pci 0000:00:00.0: supports D1 D2
+[    0.434213] pci 0000:00:00.0: PME# supported from D0 D1 D3hot
+[    0.436563] pci 0000:01:00.0: [10ec:8168] type 00 class 0x020000 PCIe Endpoint
+[    0.437328] pci 0000:01:00.0: BAR 0: initial BAR value 0x00000000 invalid
+[    0.437926] pci 0000:01:00.0: BAR 0 [io  size 0x0100]
+[    0.438458] pci 0000:01:00.0: BAR 2 [mem 0x00000000-0x00000fff 64bit]
+[    0.439078] pci 0000:01:00.0: BAR 4 [mem 0x00000000-0x00003fff 64bit]
+[    0.440138] pci 0000:01:00.0: supports D1 D2
+[    0.440516] pci 0000:01:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+[    0.456952] pci 0000:00:00.0: bridge window [mem 0xfc200000-0xfc2fffff]: assigned
+[    0.457621] pci 0000:00:00.0: bridge window [io  0x1000-0x1fff]: assigned
+[    0.458221] pci 0000:01:00.0: BAR 4 [mem 0xfc200000-0xfc203fff 64bit]: assigned
+[    0.458907] pci 0000:01:00.0: BAR 2 [mem 0xfc204000-0xfc204fff 64bit]: assigned
+[    0.459590] pci 0000:01:00.0: BAR 0 [io  0x1000-0x10ff]: assigned
+[    0.460139] pci 0000:00:00.0: PCI bridge to [bus 01-ff]
+[    0.460600] pci 0000:00:00.0:   bridge window [io  0x1000-0x1fff]
+[    0.461137] pci 0000:00:00.0:   bridge window [mem 0xfc200000-0xfc2fffff]
+[    0.461736] pci_bus 0000:00: resource 4 [io  0x0000-0xfffff]
+[    0.462234] pci_bus 0000:00: resource 5 [mem 0xfc200000-0xfdffffff]
+[    0.462785] pci_bus 0000:00: resource 6 [mem 0x100000000-0x13fffffff]
+[    0.463352] pci_bus 0000:01: resource 0 [io  0x1000-0x1fff]
+[    0.463842] pci_bus 0000:01: resource 1 [mem 0xfc200000-0xfc2fffff]
+[    0.466089] pcieport 0000:00:00.0: PME: Signaling with IRQ 43
+[    0.466936] pcieport 0000:00:00.0: AER: enabled with IRQ 52
+[    0.468706] rk_gmac-dwmac ffbe0000.ethernet: IRQ sfty not found
+[    0.469332] rk_gmac-dwmac ffbe0000.ethernet: PTP uses main clock
+[    0.469968] rk_gmac-dwmac ffbe0000.ethernet: clock input or output? (output).
+[    0.470593] rk_gmac-dwmac ffbe0000.ethernet: Can not read property: tx_delay.
+[    0.471217] rk_gmac-dwmac ffbe0000.ethernet: set tx_delay to 0x30
+[    0.471751] rk_gmac-dwmac ffbe0000.ethernet: Can not read property: rx_delay.
+[    0.472374] rk_gmac-dwmac ffbe0000.ethernet: set rx_delay to 0x10
+[    0.472913] rk_gmac-dwmac ffbe0000.ethernet: integrated PHY? (no).
+[    0.478475] rk_gmac-dwmac ffbe0000.ethernet: init for RGMII_ID
+[    0.479222] rk_gmac-dwmac ffbe0000.ethernet: User ID: 0x40, Synopsys ID: 0x51
+[    0.479867] rk_gmac-dwmac ffbe0000.ethernet:         DWMAC4/5
+[    0.480321] rk_gmac-dwmac ffbe0000.ethernet: DMA HW capability register supported
+[    0.480975] rk_gmac-dwmac ffbe0000.ethernet: RX Checksum Offload Engine supported
+[    0.481628] rk_gmac-dwmac ffbe0000.ethernet: TX Checksum insertion supported
+[    0.482243] rk_gmac-dwmac ffbe0000.ethernet: Wake-Up On Lan supported
+[    0.482806] rk_gmac-dwmac ffbe0000.ethernet: TSO supported
+[    0.483287] rk_gmac-dwmac ffbe0000.ethernet: Enable RX Mitigation via HW Watchdog Timer
+[    0.483986] rk_gmac-dwmac ffbe0000.ethernet: Enabled RFS Flow TC (entries=10)
+[    0.484611] rk_gmac-dwmac ffbe0000.ethernet: TSO feature enabled
+[    0.485136] rk_gmac-dwmac ffbe0000.ethernet: SPH feature enabled
+[    0.485663] rk_gmac-dwmac ffbe0000.ethernet: Using 40/40 bits DMA host/device width
+[    0.644271] rtc-hym8563 1-0051: no valid clock/calendar values available
+[    0.645069] rtc-hym8563 1-0051: registered as rtc0
+[    0.646488] rtc-hym8563 1-0051: no valid clock/calendar values available
+[    0.647096] rtc-hym8563 1-0051: hctosys: unable to read the hardware clock
+[    0.649208] clk: Disabling unused clocks
+[    0.649245] dwmmc_rockchip ffc30000.mmc: IDMAC supports 32-bit address mode.
+[    0.649518] dwmmc_rockchip ffc10000.mmc: IDMAC supports 32-bit address mode.
+[    0.649533] dwmmc_rockchip ffc10000.mmc: Using internal DMA controller.
+[    0.649540] dwmmc_rockchip ffc10000.mmc: Version ID is 270a
+[    0.649568] dwmmc_rockchip ffc10000.mmc: DW MMC controller at irq 33,32 bit host data width,256 deep fifo
+[    0.649985] dwmmc_rockchip ffc10000.mmc: allocated mmc-pwrseq
+[    0.650208] dwmmc_rockchip ffc30000.mmc: Using internal DMA controller.
+[    0.650817] mmc_host mmc2: card is non-removable.
+[    0.651387] dwmmc_rockchip ffc30000.mmc: Version ID is 270a
+[    0.651409] dwmmc_rockchip ffc30000.mmc: DW MMC controller at irq 34,32 bit host data width,256 deep fifo
+[    0.651560] PM: genpd: Disabling unused power domains
+[    0.656104] dw-apb-uart ff9f0000.serial: forbid DMA for kernel console
+[    0.668912] mmc_host mmc1: Bus speed (slot 0) = 400000Hz (slot req 400000Hz, actual 400000HZ div = 0)
+[    0.679356] mmc0: SDHCI controller on ffbf0000.mmc [ffbf0000.mmc] using ADMA
+[    0.685756] mmc0: Failed to initialize a non-removable card
+[    0.740581] mmc_host mmc1: Bus speed (slot 0) = 148500000Hz (slot req 150000000Hz, actual 148500000HZ div = 0)
+[    0.766860] mmc_host mmc2: Bus speed (slot 0) = 400000Hz (slot req 400000Hz, actual 400000HZ div = 0)
+[    0.780538] Waiting for root device PARTUUID=5452574f-02...
+[    0.797834] mmc_host mmc2: Bus speed (slot 0) = 198000000Hz (slot req 200000000Hz, actual 198000000HZ div = 0)
+[    0.908954] dwmmc_rockchip ffc10000.mmc: Successfully tuned phase to 3
+[    0.910230] mmc2: new ultra high speed SDR104 SDIO card at address 390b
+[    0.992180] dwmmc_rockchip ffc30000.mmc: Successfully tuned phase to 290
+[    0.992788] mmc1: new ultra high speed SDR104 SDHC card at address 0001
+[    0.993902] mmcblk1: mmc1:0001 SD 29.1 GiB
+[    0.995517]  mmcblk1: p1 p2
+[    1.001169] VFS: Mounted root (squashfs filesystem) readonly on device 179:2.
+[    1.002137] Freeing unused kernel memory: 1408K
+[    1.002578] Run /sbin/init as init process
+[    1.002939]   with arguments:
+[    1.002942]     /sbin/init
+[    1.002944]   with environment:
+[    1.002946]     HOME=/
+[    1.002948]     TERM=linux
+[    1.148198] init: Console is alive
+[    1.241948] kmodloader: loading kernel modules from /etc/modules-boot.d/*
+[    1.252689] gpio_button_hotplug: loading out-of-tree module taints kernel.
+[    1.256897] r8169 0000:01:00.0: enabling device (0000 -> 0003)
+[    1.277235] r8169 0000:01:00.0: can't read MAC address, setting random one
+[    1.332522] r8169 0000:01:00.0 eth1: RTL8168h/8111h, 3e:96:94:e9:ba:42, XID 541, IRQ 55
+[    1.333237] r8169 0000:01:00.0 eth1: jumbo features [frames: 9194 bytes, tx checksumming: ko]
+[    1.334292] kmodloader: done loading kernel modules from /etc/modules-boot.d/*
+[    1.340516] init: - preinit -
+[    1.821606] rk_gmac-dwmac ffbe0000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+[    1.846915] rk_gmac-dwmac ffbe0000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211F Gigabit Ethernet] (irq=POLL)
+[    1.856822] dwmac4: Master AXI performs any burst length
+[    1.857304] rk_gmac-dwmac ffbe0000.ethernet eth0: No Safety Features support found
+[    1.857973] rk_gmac-dwmac ffbe0000.ethernet eth0: PTP not supported by HW
+[    1.859101] rk_gmac-dwmac ffbe0000.ethernet eth0: configuring for phy/rgmii-id link mode
+[    5.982868] loop0: detected capacity change from 0 to 524288
+[    6.036850] loop0: detected capacity change from 524288 to 517888
+[    6.038997] mount_root: overlay filesystem in /dev/loop0 has not been formatted yet
+[    6.221115] F2FS-fs (loop0): Found nat_bits in checkpoint
+[    6.229099] F2FS-fs (loop0): Mounted with checkpoint version = 5ccce271
+[    6.230128] mount_root: overlay filesystem has not been fully initialized yet
+[    6.231093] mount_root: switching to f2fs overlay
+[    6.274595] EXT4-fs (mmcblk1p1): mounted filesystem 84173db5-fa99-e35a-95c6-28613cc79ea9 r/w without journal. Quota mode: none.
+[    6.280346] EXT4-fs (mmcblk1p1): unmounting filesystem 84173db5-fa99-e35a-95c6-28613cc79ea9.
+[    6.283850] urandom-seed: Seed file not found (/etc/urandom.seed)
+[    6.542230] procd: - early -
+[    7.098805] procd: - ubus -
+[    7.165446] procd: - init -
+[    7.213881] rtc-hym8563 1-0051: no valid clock/calendar values available
+[    7.380699] kmodloader: loading kernel modules from /etc/modules.d/*
+[    7.417465] PPP generic driver version 2.4.2
+[    7.418630] NET: Registered PF_PPPOX protocol family
+[    7.421991] kmodloader: done loading kernel modules from /etc/modules.d/*
+[    7.514241] urngd: v1.0.2 started.
+[   10.408033] rk_gmac-dwmac ffbe0000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+[   10.546849] rk_gmac-dwmac ffbe0000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211F Gigabit Ethernet] (irq=POLL)
+[   10.566828] dwmac4: Master AXI performs any burst length
+[   10.567323] rk_gmac-dwmac ffbe0000.ethernet eth0: No Safety Features support found
+[   10.567994] rk_gmac-dwmac ffbe0000.ethernet eth0: PTP not supported by HW
+[   10.568602] rk_gmac-dwmac ffbe0000.ethernet eth0: configuring for phy/rgmii-id link mode
+[   10.598507] br-lan: port 1(eth0) entered blocking state
+[   10.598988] br-lan: port 1(eth0) entered disabled state
+[   10.599477] rk_gmac-dwmac ffbe0000.ethernet eth0: entered allmulticast mode
+[   10.600320] rk_gmac-dwmac ffbe0000.ethernet eth0: entered promiscuous mode
+root@OpenWrt:~# echo "=====END====="
+=====END=====
+root@OpenWrt:~# echo "=====START====="
+=====START=====
+root@OpenWrt:~# cat /tmp/logread.txt
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd034]
+Mon Jun 29 12:59:20 2026 kern.notice kernel: [    0.000000] Linux version 6.12.94 (runner@runnervmlun5p) (aarch64-openwrt-linux-musl-gcc (OpenWrt GCC 14.3.0 r33051-f5dae5ece4) 14.3.0, GNU ld (GNU Binutils) 2.44) #0 SMP Mon Jun 29 12:59:20 2026
+Mon Jun 29 12:59:20 2026 kern.notice kernel: [    0.000000] random: crng init done
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] Machine model: FriendlyElec NanoPi R28S
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] earlycon: uart8250 at MMIO32 0x00000000ff9f0000 (options '')
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] printk: legacy bootconsole [uart8250] enabled
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] OF: reserved mem: 0x000000000010f000..0x000000000010f0ff (0 KiB) nomap non-reusable shmem@10f000
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] Zone ranges:
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000]   DMA      [mem 0x0000000000200000-0x000000003fffffff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000]   DMA32    empty
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000]   Normal   empty
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] Movable zone start for each node
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] Early memory node ranges
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000]   node   0: [mem 0x0000000000200000-0x000000003fffffff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] Initmem setup node 0 [mem 0x0000000000200000-0x000000003fffffff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] On node 0, zone DMA: 512 pages in unavailable ranges
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] cma: Reserved 16 MiB at 0x000000003dc00000 on node -1
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] psci: probing for conduit method from DT.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] psci: PSCIv1.1 detected in firmware.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] psci: Using standard PSCI v0.2 function IDs
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] psci: MIGRATE_INFO_TYPE not supported.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] psci: SMC Calling Convention v1.2
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] percpu: Embedded 21 pages/cpu s46680 r8192 d31144 u86016
+Mon Jun 29 12:59:20 2026 kern.debug kernel: [    0.000000] pcpu-alloc: s46680 r8192 d31144 u86016 alloc=21*4096
+Mon Jun 29 12:59:20 2026 kern.debug kernel: [    0.000000] pcpu-alloc: [0] 0 [0] 1 [0] 2 [0] 3
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] Detected VIPT I-cache on CPU0
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] alternatives: applying boot alternatives
+Mon Jun 29 12:59:20 2026 kern.notice kernel: [    0.000000] Kernel command line: console=ttyS0,1500000 earlycon=uart8250,mmio32,0xff9f0000 root=PARTUUID=5452574f-02 rw rootwait
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] Dentry cache hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] Inode-cache hash table entries: 65536 (order: 7, 524288 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 261632
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] mem auto-init: stack:off, heap alloc:off, heap free:off
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] software IO TLB: SWIOTLB bounce buffer size adjusted to 0MB
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] software IO TLB: area num 4.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] software IO TLB: mapped [mem 0x000000003da80000-0x000000003db80000] (1MB)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] rcu: Hierarchical RCU implementation.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] rcu:  RCU event tracing is enabled.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] rcu:  RCU restricting CPUs from NR_CPUS=256 to nr_cpu_ids=4.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000]       Tracing variant of Tasks RCU enabled.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 10 jiffies.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] RCU Tasks Trace: Setting shift to 2 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=4.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] Root IRQ handler: gic_handle_irq
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] GIC: Using split EOI/Deactivate mode
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] arch_timer: cp15 timer(s) running at 24.00MHz (phys).
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x588fe9dc0, max_idle_ns: 440795202592 ns
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000000] sched_clock: 56 bits at 24MHz, resolution 41ns, wraps every 4398046511097ns
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.000965] Console: colour dummy device 80x25
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.001408] Calibrating delay loop (skipped), value calculated using timer frequency.. 48.00 BogoMIPS (lpj=240000)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.002360] pid_max: default: 32768 minimum: 301
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.002956] Mount-cache hash table entries: 2048 (order: 2, 16384 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.003640] Mountpoint-cache hash table entries: 2048 (order: 2, 16384 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    0.005087] cacheinfo: Unable to detect cache hierarchy for CPU 0
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.006307] rcu: Hierarchical SRCU implementation.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.006759] rcu:  Max phase no-delay instances is 1000.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.007356] Timer migration: 1 hierarchy levels; 8 children per group; 1 crossnode level
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.008297] smp: Bringing up secondary CPUs ...
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.009054] Detected VIPT I-cache on CPU1
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.009132] CPU1: Booted secondary processor 0x0000000001 [0x410fd034]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.009534] Detected VIPT I-cache on CPU2
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.009603] CPU2: Booted secondary processor 0x0000000002 [0x410fd034]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.009980] Detected VIPT I-cache on CPU3
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.010049] CPU3: Booted secondary processor 0x0000000003 [0x410fd034]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.010131] smp: Brought up 1 node, 4 CPUs
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.013389] SMP: Total of 4 processors activated.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.013820] CPU: All CPU(s) started at EL2
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.014197] CPU features: detected: 32-bit EL0 Support
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.014669] CPU features: detected: CRC32 instructions
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.015172] alternatives: applying system-wide alternatives
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.015828] CPU features: emulated: Privileged Access Never (PAN) using TTBR0_EL1 switching
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.016746] Memory: 986884K/1046528K available (10176K kernel code, 2460K rwdata, 3160K rodata, 1408K init, 741K bss, 39780K reserved, 16384K cma-reserved)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.022221] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.023141] futex hash table entries: 1024 (order: 4, 65536 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.024089] 28240 pages in range for non-PLT usage
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.024102] 519760 pages in range for PLT usage
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.024669] pinctrl core: initialized pinctrl subsystem
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.027648] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.029159] DMA: preallocated 128 KiB GFP_KERNEL pool for atomic allocations
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.030404] DMA: preallocated 128 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.031868] DMA: preallocated 128 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.033975] thermal_sys: Registered thermal governor 'step_wise'
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.033989] thermal_sys: Registered thermal governor 'power_allocator'
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.034607] cpuidle: using governor menu
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.035648] ASID allocator initialised with 65536 entries
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.036243] Serial: AMBA PL011 UART driver
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.041143] /soc/interrupt-controller@fed01000: Fixed dependency cycle(s) with /soc/interrupt-controller@fed01000
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.042480] /soc/pcie@fe000000: Fixed dependency cycle(s) with /soc/pcie@fe000000/legacy-interrupt-controller
+Mon Jun 29 12:59:20 2026 kern.err kernel: [    0.046658] rockchip-pm-domain ff600000.power-management:power-controller: power-domain: failed to get clk at index 0: -517
+Mon Jun 29 12:59:20 2026 kern.err kernel: [    0.047693] rockchip-pm-domain ff600000.power-management:power-controller: failed to handle node power-domain: -517
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.053822] HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.054457] HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.055032] HugeTLB: registered 32.0 MiB page size, pre-allocated 0 pages
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.055652] HugeTLB: 0 KiB vmemmap can be freed for a 32.0 MiB page
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.056226] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.056847] HugeTLB: 0 KiB vmemmap can be freed for a 2.00 MiB page
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.057421] HugeTLB: registered 64.0 KiB page size, pre-allocated 0 pages
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.058043] HugeTLB: 0 KiB vmemmap can be freed for a 64.0 KiB page
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.059536] cryptd: max_cpu_qlen set to 1000
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.060629] iommu: Default domain type: Passthrough
+Mon Jun 29 12:59:20 2026 kern.notice kernel: [    0.061399] SCSI subsystem initialized
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.061897] usbcore: registered new interface driver usbfs
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.062421] usbcore: registered new interface driver hub
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.062929] usbcore: registered new device driver usb
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.063626] pps_core: LinuxPPS API ver. 1 registered
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.064083] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.064923] PTP clock support registered
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.065345] scmi_core: SCMI protocol bus registered
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.066814] clocksource: Switched to clocksource arch_sys_counter
+Mon Jun 29 12:59:20 2026 kern.notice kernel: [    0.067607] VFS: Disk quotas dquot_6.6.0
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.067990] VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.070955] NET: Registered PF_INET protocol family
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.071509] IP idents hash table entries: 16384 (order: 5, 131072 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.072929] tcp_listen_portaddr_hash hash table entries: 512 (order: 1, 8192 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.073710] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.074423] TCP established hash table entries: 8192 (order: 4, 65536 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.075177] TCP bind hash table entries: 8192 (order: 6, 262144 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.076008] TCP: Hash tables configured (established 8192 bind 8192)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.076746] MPTCP token hash table entries: 1024 (order: 3, 24576 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.077527] UDP hash table entries: 512 (order: 2, 16384 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.078153] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes, linear)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.078931] NET: Registered PF_UNIX/PF_LOCAL protocol family
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.079480] PCI: CLS 0 bytes, default 64
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.080819] workingset: timestamp_bits=46 max_order=18 bucket_order=0
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.081784] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.082326] jffs2: version 2.2 (NAND) (SUMMARY) (ZLIB) (LZMA) (RTIME) (CMODE_PRIORITY) (c) 2001-2006 Red Hat, Inc.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.083736] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 248)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.084550] io scheduler mq-deadline registered
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.088071] ledtrig-cpu: registered to indicate activity on CPUs
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.096673] dma-pl330 ffd60000.dma-controller: Loaded driver for PL330 DMAC-241330
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.097431] dma-pl330 ffd60000.dma-controller:    DBUFF-128x8bytes Num_Chans-8 Num_Peri-32 Num_Events-16
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.099263] Serial: 8250/16550 driver, 12 ports, IRQ sharing enabled
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.101928] printk: legacy console [ttyS0] disabled
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.102605] ff9f0000.serial: ttyS0 at MMIO 0xff9f0000 (irq = 24, base_baud = 1500000) is a 16550A
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.103513] printk: legacy console [ttyS0] enabled
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.104372] printk: legacy bootconsole [uart8250] disabled
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.108905] loop: module loaded
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.109200] mtip32xx Version 1.3.1
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.113401] usbcore: registered new interface driver usb-storage
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.114043] i2c_dev: i2c /dev entries driver
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.115823] sdhci: Secure Digital Host Controller Interface driver
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.116375] sdhci: Copyright(c) Pierre Ossman
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.116757] Synopsys Designware Multimedia Card Interface Driver
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.117570] sdhci-pltfm: SDHCI platform and OF driver helper
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.119240] arm-scmi arm-scmi.0.auto: Using scmi_smc_transport
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.119765] arm-scmi arm-scmi.0.auto: SCMI max-rx-timeout: 30ms
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.120372] scmi_protocol scmi_dev.1: Enabled polling mode TX channel - prot_id:16
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.121208] arm-scmi arm-scmi.0.auto: SCMI Notifications - Core Enabled.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.121829] arm-scmi arm-scmi.0.auto: SCMI Protocol v2.0 'rockchip:' Firmware version 0x0
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.124476] NET: Registered PF_INET6 protocol family
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.125596] Segment Routing with IPv6
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.125960] In-situ OAM (IOAM) with IPv6
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.126345] NET: Registered PF_PACKET protocol family
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.126980] 8021q: 802.1Q VLAN Support v1.8
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    0.146540] gpio gpiochip0: Static allocation of GPIO base is deprecated, use dynamic allocation.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.147523] rockchip-gpio ff610000.gpio: probed /pinctrl/gpio@ff610000
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.154763] ffa00000.serial: ttyS2 at MMIO 0xffa00000 (irq = 27, base_baud = 1500000) is a 16550A
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.156343] rk_gmac-dwmac ffbe0000.ethernet: IRQ sfty not found
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.156999] rk_gmac-dwmac ffbe0000.ethernet: PTP uses main clock
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.157649] rk_gmac-dwmac ffbe0000.ethernet: clock input or output? (output).
+Mon Jun 29 12:59:20 2026 kern.err kernel: [    0.158276] rk_gmac-dwmac ffbe0000.ethernet: Can not read property: tx_delay.
+Mon Jun 29 12:59:20 2026 kern.err kernel: [    0.158899] rk_gmac-dwmac ffbe0000.ethernet: set tx_delay to 0x30
+Mon Jun 29 12:59:20 2026 kern.err kernel: [    0.159432] rk_gmac-dwmac ffbe0000.ethernet: Can not read property: rx_delay.
+Mon Jun 29 12:59:20 2026 kern.err kernel: [    0.160055] rk_gmac-dwmac ffbe0000.ethernet: set rx_delay to 0x10
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.160595] rk_gmac-dwmac ffbe0000.ethernet: integrated PHY? (no).
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.166157] rk_gmac-dwmac ffbe0000.ethernet: init for RGMII_ID
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.166878] rk_gmac-dwmac ffbe0000.ethernet: User ID: 0x40, Synopsys ID: 0x51
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.167519] rk_gmac-dwmac ffbe0000.ethernet:      DWMAC4/5
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.167972] rk_gmac-dwmac ffbe0000.ethernet: DMA HW capability register supported
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.168626] rk_gmac-dwmac ffbe0000.ethernet: RX Checksum Offload Engine supported
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.169279] rk_gmac-dwmac ffbe0000.ethernet: TX Checksum insertion supported
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.169894] rk_gmac-dwmac ffbe0000.ethernet: Wake-Up On Lan supported
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.170457] rk_gmac-dwmac ffbe0000.ethernet: TSO supported
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.170938] rk_gmac-dwmac ffbe0000.ethernet: Enable RX Mitigation via HW Watchdog Timer
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.171638] rk_gmac-dwmac ffbe0000.ethernet: Enabled RFS Flow TC (entries=10)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.172262] rk_gmac-dwmac ffbe0000.ethernet: TSO feature enabled
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.172787] rk_gmac-dwmac ffbe0000.ethernet: SPH feature enabled
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.173313] rk_gmac-dwmac ffbe0000.ethernet: Using 40/40 bits DMA host/device width
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    0.176002] dwc3 fe500000.usb: Configuration mismatch. dr_mode forced to host
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.180668] xhci-hcd xhci-hcd.1.auto: xHCI Host Controller
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.181175] xhci-hcd xhci-hcd.1.auto: new USB bus registered, assigned bus number 1
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.181946] xhci-hcd xhci-hcd.1.auto: USB3 root hub has no ports
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.182474] xhci-hcd xhci-hcd.1.auto: hcc params 0x0220fe64 hci version 0x110 quirks 0x0000808002000010
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.183327] xhci-hcd xhci-hcd.1.auto: irq 30, io mem 0xfe500000
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.184293] hub 1-0:1.0: USB hub found
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.184645] hub 1-0:1.0: 1 port detected
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.188220] cpufreq: cpufreq_online: CPU0: Running at unlisted initial frequency: 408000 KHz, changing to: 1200000 KHz
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    0.190768] gpio gpiochip1: Static allocation of GPIO base is deprecated, use dynamic allocation.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.190838] dwmmc_rockchip ffc10000.mmc: IDMAC supports 32-bit address mode.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.190995] dwmmc_rockchip ffc30000.mmc: IDMAC supports 32-bit address mode.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.191014] dwmmc_rockchip ffc30000.mmc: Using internal DMA controller.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.191020] dwmmc_rockchip ffc30000.mmc: Version ID is 270a
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.191055] dwmmc_rockchip ffc30000.mmc: DW MMC controller at irq 34,32 bit host data width,256 deep fifo
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.191697] rockchip-gpio ffaf0000.gpio: probed /pinctrl/gpio@ffaf0000
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.192194] dwmmc_rockchip ffc10000.mmc: Using internal DMA controller.
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    0.193048] gpio gpiochip2: Static allocation of GPIO base is deprecated, use dynamic allocation.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.193364] dwmmc_rockchip ffc10000.mmc: Version ID is 270a
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.193945] rockchip-gpio ffb00000.gpio: probed /pinctrl/gpio@ffb00000
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.194698] dwmmc_rockchip ffc10000.mmc: DW MMC controller at irq 33,32 bit host data width,256 deep fifo
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    0.195444] gpio gpiochip3: Static allocation of GPIO base is deprecated, use dynamic allocation.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.199395] rockchip-gpio ffb10000.gpio: probed /pinctrl/gpio@ffb10000
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    0.200247] gpio gpiochip4: Static allocation of GPIO base is deprecated, use dynamic allocation.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.201127] rockchip-gpio ffb20000.gpio: probed /pinctrl/gpio@ffb20000
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.203573] rockchip-dw-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.204270] rockchip-dw-pcie fe000000.pcie:       IO 0x00fc100000..0x00fc1fffff -> 0x00fc100000
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.205038] rockchip-dw-pcie fe000000.pcie:      MEM 0x00fc200000..0x00fdffffff -> 0x00fc200000
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.205801] rockchip-dw-pcie fe000000.pcie:      MEM 0x0100000000..0x013fffffff -> 0x0100000000
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.206725] rockchip-dw-pcie fe000000.pcie: iATU: unroll T, 8 ob, 8 ib, align 64K, limit 8G
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.426826] rockchip-dw-pcie fe000000.pcie: PCIe Gen.1 x1 link up
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.427665] rockchip-dw-pcie fe000000.pcie: PCI host bridge to bus 0000:00
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.428282] pci_bus 0000:00: root bus resource [bus 00-ff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.428768] pci_bus 0000:00: root bus resource [io  0x0000-0xfffff] (bus address [0xfc100000-0xfc1fffff])
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.429603] pci_bus 0000:00: root bus resource [mem 0xfc200000-0xfdffffff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.430205] pci_bus 0000:00: root bus resource [mem 0x100000000-0x13fffffff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.430852] pci 0000:00:00.0: [1d87:3528] type 01 class 0x060400 PCIe Root Port
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.431511] pci 0000:00:00.0: PCI bridge to [bus 01-ff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.431974] pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.432510] pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.433109] pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff 64bit pref]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.433835] pci 0000:00:00.0: supports D1 D2
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.434213] pci 0000:00:00.0: PME# supported from D0 D1 D3hot
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.436563] pci 0000:01:00.0: [10ec:8168] type 00 class 0x020000 PCIe Endpoint
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.437328] pci 0000:01:00.0: BAR 0: initial BAR value 0x00000000 invalid
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.437926] pci 0000:01:00.0: BAR 0 [io  size 0x0100]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.438458] pci 0000:01:00.0: BAR 2 [mem 0x00000000-0x00000fff 64bit]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.439078] pci 0000:01:00.0: BAR 4 [mem 0x00000000-0x00003fff 64bit]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.440138] pci 0000:01:00.0: supports D1 D2
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.440516] pci 0000:01:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.456952] pci 0000:00:00.0: bridge window [mem 0xfc200000-0xfc2fffff]: assigned
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.457621] pci 0000:00:00.0: bridge window [io  0x1000-0x1fff]: assigned
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.458221] pci 0000:01:00.0: BAR 4 [mem 0xfc200000-0xfc203fff 64bit]: assigned
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.458907] pci 0000:01:00.0: BAR 2 [mem 0xfc204000-0xfc204fff 64bit]: assigned
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.459590] pci 0000:01:00.0: BAR 0 [io  0x1000-0x10ff]: assigned
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.460139] pci 0000:00:00.0: PCI bridge to [bus 01-ff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.460600] pci 0000:00:00.0:   bridge window [io  0x1000-0x1fff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.461137] pci 0000:00:00.0:   bridge window [mem 0xfc200000-0xfc2fffff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.461736] pci_bus 0000:00: resource 4 [io  0x0000-0xfffff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.462234] pci_bus 0000:00: resource 5 [mem 0xfc200000-0xfdffffff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.462785] pci_bus 0000:00: resource 6 [mem 0x100000000-0x13fffffff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.463352] pci_bus 0000:01: resource 0 [io  0x1000-0x1fff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.463842] pci_bus 0000:01: resource 1 [mem 0xfc200000-0xfc2fffff]
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.466089] pcieport 0000:00:00.0: PME: Signaling with IRQ 43
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.466936] pcieport 0000:00:00.0: AER: enabled with IRQ 52
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.468706] rk_gmac-dwmac ffbe0000.ethernet: IRQ sfty not found
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.469332] rk_gmac-dwmac ffbe0000.ethernet: PTP uses main clock
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.469968] rk_gmac-dwmac ffbe0000.ethernet: clock input or output? (output).
+Mon Jun 29 12:59:20 2026 kern.err kernel: [    0.470593] rk_gmac-dwmac ffbe0000.ethernet: Can not read property: tx_delay.
+Mon Jun 29 12:59:20 2026 kern.err kernel: [    0.471217] rk_gmac-dwmac ffbe0000.ethernet: set tx_delay to 0x30
+Mon Jun 29 12:59:20 2026 kern.err kernel: [    0.471751] rk_gmac-dwmac ffbe0000.ethernet: Can not read property: rx_delay.
+Mon Jun 29 12:59:20 2026 kern.err kernel: [    0.472374] rk_gmac-dwmac ffbe0000.ethernet: set rx_delay to 0x10
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.472913] rk_gmac-dwmac ffbe0000.ethernet: integrated PHY? (no).
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.478475] rk_gmac-dwmac ffbe0000.ethernet: init for RGMII_ID
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.479222] rk_gmac-dwmac ffbe0000.ethernet: User ID: 0x40, Synopsys ID: 0x51
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.479867] rk_gmac-dwmac ffbe0000.ethernet:      DWMAC4/5
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.480321] rk_gmac-dwmac ffbe0000.ethernet: DMA HW capability register supported
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.480975] rk_gmac-dwmac ffbe0000.ethernet: RX Checksum Offload Engine supported
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.481628] rk_gmac-dwmac ffbe0000.ethernet: TX Checksum insertion supported
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.482243] rk_gmac-dwmac ffbe0000.ethernet: Wake-Up On Lan supported
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.482806] rk_gmac-dwmac ffbe0000.ethernet: TSO supported
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.483287] rk_gmac-dwmac ffbe0000.ethernet: Enable RX Mitigation via HW Watchdog Timer
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.483986] rk_gmac-dwmac ffbe0000.ethernet: Enabled RFS Flow TC (entries=10)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.484611] rk_gmac-dwmac ffbe0000.ethernet: TSO feature enabled
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.485136] rk_gmac-dwmac ffbe0000.ethernet: SPH feature enabled
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.485663] rk_gmac-dwmac ffbe0000.ethernet: Using 40/40 bits DMA host/device width
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    0.644271] rtc-hym8563 1-0051: no valid clock/calendar values available
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.645069] rtc-hym8563 1-0051: registered as rtc0
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    0.646488] rtc-hym8563 1-0051: no valid clock/calendar values available
+Mon Jun 29 12:59:20 2026 kern.err kernel: [    0.647096] rtc-hym8563 1-0051: hctosys: unable to read the hardware clock
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.649208] clk: Disabling unused clocks
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.649245] dwmmc_rockchip ffc30000.mmc: IDMAC supports 32-bit address mode.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.649518] dwmmc_rockchip ffc10000.mmc: IDMAC supports 32-bit address mode.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.649533] dwmmc_rockchip ffc10000.mmc: Using internal DMA controller.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.649540] dwmmc_rockchip ffc10000.mmc: Version ID is 270a
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.649568] dwmmc_rockchip ffc10000.mmc: DW MMC controller at irq 33,32 bit host data width,256 deep fifo
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.649985] dwmmc_rockchip ffc10000.mmc: allocated mmc-pwrseq
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.650208] dwmmc_rockchip ffc30000.mmc: Using internal DMA controller.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.650817] mmc_host mmc2: card is non-removable.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.651387] dwmmc_rockchip ffc30000.mmc: Version ID is 270a
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.651409] dwmmc_rockchip ffc30000.mmc: DW MMC controller at irq 34,32 bit host data width,256 deep fifo
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.651560] PM: genpd: Disabling unused power domains
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    0.656104] dw-apb-uart ff9f0000.serial: forbid DMA for kernel console
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.668912] mmc_host mmc1: Bus speed (slot 0) = 400000Hz (slot req 400000Hz, actual 400000HZ div = 0)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.679356] mmc0: SDHCI controller on ffbf0000.mmc [ffbf0000.mmc] using ADMA
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.685756] mmc0: Failed to initialize a non-removable card
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.740581] mmc_host mmc1: Bus speed (slot 0) = 148500000Hz (slot req 150000000Hz, actual 148500000HZ div = 0)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.766860] mmc_host mmc2: Bus speed (slot 0) = 400000Hz (slot req 400000Hz, actual 400000HZ div = 0)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.780538] Waiting for root device PARTUUID=5452574f-02...
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.797834] mmc_host mmc2: Bus speed (slot 0) = 198000000Hz (slot req 200000000Hz, actual 198000000HZ div = 0)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.908954] dwmmc_rockchip ffc10000.mmc: Successfully tuned phase to 3
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.910230] mmc2: new ultra high speed SDR104 SDIO card at address 390b
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.992180] dwmmc_rockchip ffc30000.mmc: Successfully tuned phase to 290
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.992788] mmc1: new ultra high speed SDR104 SDHC card at address 0001
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.993902] mmcblk1: mmc1:0001 SD 29.1 GiB
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    0.995517]  mmcblk1: p1 p2
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    1.001169] VFS: Mounted root (squashfs filesystem) readonly on device 179:2.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    1.002137] Freeing unused kernel memory: 1408K
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    1.002578] Run /sbin/init as init process
+Mon Jun 29 12:59:20 2026 kern.debug kernel: [    1.002939]   with arguments:
+Mon Jun 29 12:59:20 2026 kern.debug kernel: [    1.002942]     /sbin/init
+Mon Jun 29 12:59:20 2026 kern.debug kernel: [    1.002944]   with environment:
+Mon Jun 29 12:59:20 2026 kern.debug kernel: [    1.002946]     HOME=/
+Mon Jun 29 12:59:20 2026 kern.debug kernel: [    1.002948]     TERM=linux
+Mon Jun 29 12:59:20 2026 user.info kernel: [    1.148198] init: Console is alive
+Mon Jun 29 12:59:20 2026 user.info kernel: [    1.241948] kmodloader: loading kernel modules from /etc/modules-boot.d/*
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    1.252689] gpio_button_hotplug: loading out-of-tree module taints kernel.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    1.256897] r8169 0000:01:00.0: enabling device (0000 -> 0003)
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    1.277235] r8169 0000:01:00.0: can't read MAC address, setting random one
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    1.332522] r8169 0000:01:00.0 eth1: RTL8168h/8111h, 3e:96:94:e9:ba:42, XID 541, IRQ 55
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    1.333237] r8169 0000:01:00.0 eth1: jumbo features [frames: 9194 bytes, tx checksumming: ko]
+Mon Jun 29 12:59:20 2026 user.info kernel: [    1.334292] kmodloader: done loading kernel modules from /etc/modules-boot.d/*
+Mon Jun 29 12:59:20 2026 user.info kernel: [    1.340516] init: - preinit -
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    1.821606] rk_gmac-dwmac ffbe0000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    1.846915] rk_gmac-dwmac ffbe0000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211F Gigabit Ethernet] (irq=POLL)
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    1.856822] dwmac4: Master AXI performs any burst length
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    1.857304] rk_gmac-dwmac ffbe0000.ethernet eth0: No Safety Features support found
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    1.857973] rk_gmac-dwmac ffbe0000.ethernet eth0: PTP not supported by HW
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    1.859101] rk_gmac-dwmac ffbe0000.ethernet eth0: configuring for phy/rgmii-id link mode
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    5.982868] loop0: detected capacity change from 0 to 524288
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    6.036850] loop0: detected capacity change from 524288 to 517888
+Mon Jun 29 12:59:20 2026 user.info kernel: [    6.038997] mount_root: overlay filesystem in /dev/loop0 has not been formatted yet
+Mon Jun 29 12:59:20 2026 kern.notice kernel: [    6.221115] F2FS-fs (loop0): Found nat_bits in checkpoint
+Mon Jun 29 12:59:20 2026 kern.notice kernel: [    6.229099] F2FS-fs (loop0): Mounted with checkpoint version = 5ccce271
+Mon Jun 29 12:59:20 2026 user.info kernel: [    6.230128] mount_root: overlay filesystem has not been fully initialized yet
+Mon Jun 29 12:59:20 2026 user.info kernel: [    6.231093] mount_root: switching to f2fs overlay
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    6.274595] EXT4-fs (mmcblk1p1): mounted filesystem 84173db5-fa99-e35a-95c6-28613cc79ea9 r/w without journal. Quota mode: none.
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    6.280346] EXT4-fs (mmcblk1p1): unmounting filesystem 84173db5-fa99-e35a-95c6-28613cc79ea9.
+Mon Jun 29 12:59:20 2026 user.warn kernel: [    6.283850] urandom-seed: Seed file not found (/etc/urandom.seed)
+Mon Jun 29 12:59:20 2026 user.info kernel: [    6.542230] procd: - early -
+Mon Jun 29 12:59:20 2026 user.info kernel: [    7.098805] procd: - ubus -
+Mon Jun 29 12:59:20 2026 user.info kernel: [    7.165446] procd: - init -
+Mon Jun 29 12:59:20 2026 kern.warn kernel: [    7.213881] rtc-hym8563 1-0051: no valid clock/calendar values available
+Mon Jun 29 12:59:20 2026 user.info kernel: [    7.380699] kmodloader: loading kernel modules from /etc/modules.d/*
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    7.417465] PPP generic driver version 2.4.2
+Mon Jun 29 12:59:20 2026 kern.info kernel: [    7.418630] NET: Registered PF_PPPOX protocol family
+Mon Jun 29 12:59:20 2026 user.info kernel: [    7.421991] kmodloader: done loading kernel modules from /etc/modules.d/*
+Mon Jun 29 12:59:20 2026 user.info kernel: [    7.514241] urngd: v1.0.2 started.
+Mon Jun 29 12:59:20 2026 user.notice dnsmasq: DNS rebinding protection is active, will discard upstream RFC1918 responses!
+Mon Jun 29 12:59:20 2026 user.notice dnsmasq: Allowing 127.0.0.0/8 responses
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: started, version 2.93 cachesize 1000
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: DNS service limited to local subnets
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: compile time options: IPv6 GNU-getopt no-DBus UBus no-i18n no-IDN DHCP no-DHCPv6 no-Lua TFTP no-conntrack no-ipset no-nftset no-auth no-DNSSEC no-ID loop-detect inotify dumpfile
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: UBus support enabled: connected to system bus
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: using only locally-known addresses for test
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: using only locally-known addresses for onion
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: using only locally-known addresses for localhost
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: using only locally-known addresses for local
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: using only locally-known addresses for invalid
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: using only locally-known addresses for bind
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: using only locally-known addresses for lan
+Mon Jun 29 12:59:21 2026 daemon.warn dnsmasq[1]: no servers found in /tmp/resolv.conf.d/resolv.conf.auto, will retry
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: read /etc/hosts - 12 names
+Mon Jun 29 12:59:21 2026 daemon.info dnsmasq[1]: read /tmp/hosts/dhcp.cfg01411c - 0 names
+Mon Jun 29 12:59:22 2026 authpriv.info dropbear[771]: Not backgrounding
+Mon Jun 29 12:59:22 2026 user.notice : Added device handler type: vrf
+Mon Jun 29 12:59:22 2026 user.notice : Added device handler type: bonding
+Mon Jun 29 12:59:22 2026 user.notice : Added device handler type: 8021ad
+Mon Jun 29 12:59:22 2026 user.notice : Added device handler type: 8021q
+Mon Jun 29 12:59:22 2026 user.notice : Added device handler type: macvlan
+Mon Jun 29 12:59:22 2026 user.notice : Added device handler type: veth
+Mon Jun 29 12:59:22 2026 user.notice : Added device handler type: bridge
+Mon Jun 29 12:59:22 2026 user.notice : Added device handler type: Network device
+Mon Jun 29 12:59:22 2026 user.notice : Added device handler type: tunnel
+Mon Jun 29 12:59:23 2026 daemon.warn netifd: Wireless module not found
+Mon Jun 29 12:59:23 2026 kern.info kernel: [   10.408033] rk_gmac-dwmac ffbe0000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+Mon Jun 29 12:59:23 2026 kern.info kernel: [   10.546849] rk_gmac-dwmac ffbe0000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211F Gigabit Ethernet] (irq=POLL)
+Mon Jun 29 12:59:23 2026 kern.info kernel: [   10.566828] dwmac4: Master AXI performs any burst length
+Mon Jun 29 12:59:23 2026 kern.info kernel: [   10.567323] rk_gmac-dwmac ffbe0000.ethernet eth0: No Safety Features support found
+Mon Jun 29 12:59:23 2026 kern.info kernel: [   10.567994] rk_gmac-dwmac ffbe0000.ethernet eth0: PTP not supported by HW
+Mon Jun 29 12:59:23 2026 kern.info kernel: [   10.568602] rk_gmac-dwmac ffbe0000.ethernet eth0: configuring for phy/rgmii-id link mode
+Mon Jun 29 12:59:23 2026 daemon.notice netifd: Interface 'lan' is enabled
+Mon Jun 29 12:59:23 2026 daemon.notice netifd: Interface 'lan' is setting up now
+Mon Jun 29 12:59:23 2026 kern.info kernel: [   10.598507] br-lan: port 1(eth0) entered blocking state
+Mon Jun 29 12:59:23 2026 kern.info kernel: [   10.598988] br-lan: port 1(eth0) entered disabled state
+Mon Jun 29 12:59:23 2026 kern.info kernel: [   10.599477] rk_gmac-dwmac ffbe0000.ethernet eth0: entered allmulticast mode
+Mon Jun 29 12:59:23 2026 kern.info kernel: [   10.600320] rk_gmac-dwmac ffbe0000.ethernet eth0: entered promiscuous mode
+Mon Jun 29 12:59:23 2026 daemon.notice netifd: Interface 'lan' is now up
+Mon Jun 29 12:59:23 2026 daemon.notice netifd: Interface 'loopback' is enabled
+Mon Jun 29 12:59:23 2026 daemon.notice netifd: Interface 'loopback' is setting up now
+Mon Jun 29 12:59:23 2026 daemon.notice netifd: Interface 'loopback' is now up
+Mon Jun 29 12:59:23 2026 daemon.notice netifd: Network device 'lo' link is up
+Mon Jun 29 12:59:23 2026 daemon.notice netifd: Interface 'loopback' has link connectivity
+Mon Jun 29 12:59:23 2026 user.notice firewall: Reloading firewall due to ifup of lan (br-lan)
+Mon Jun 29 12:59:23 2026 daemon.info procd: - init complete -
+Mon Jun 29 12:59:23 2026 daemon.info urandom_seed[1307]: Seed saved (/etc/urandom.seed)
+Mon Jun 29 12:59:27 2026 daemon.info dnsmasq[1]: exiting on receipt of SIGTERM
+Mon Jun 29 12:59:28 2026 daemon.err procd: Got unexpected signal 1
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: started, version 2.93 cachesize 1000
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: DNS service limited to local subnets
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: compile time options: IPv6 GNU-getopt no-DBus UBus no-i18n no-IDN DHCP no-DHCPv6 no-Lua TFTP no-conntrack no-ipset no-nftset no-auth no-DNSSEC no-ID loop-detect inotify dumpfile
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: UBus support enabled: connected to system bus
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq-dhcp[1]: DHCP, IP range 192.168.1.100 -- 192.168.1.249, lease time 12h
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: using only locally-known addresses for test
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: using only locally-known addresses for onion
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: using only locally-known addresses for localhost
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: using only locally-known addresses for local
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: using only locally-known addresses for invalid
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: using only locally-known addresses for bind
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: using only locally-known addresses for lan
+Mon Jun 29 12:59:28 2026 daemon.warn dnsmasq[1]: no servers found in /tmp/resolv.conf.d/resolv.conf.auto, will retry
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: read /etc/hosts - 12 names
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq[1]: read /tmp/hosts/dhcp.cfg01411c - 4 names
+Mon Jun 29 12:59:28 2026 daemon.info dnsmasq-dhcp[1]: read /etc/ethers - 0 addresses
+Mon Jun 29 13:00:43 2026 auth.info login[1580]: root login on 'ttyS0'
+root@OpenWrt:~# echo "=====END====="
+=====END=====
+root@OpenWrt:~#
