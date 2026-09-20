@@ -1,13 +1,11 @@
 name: Build NanoPi R28S OpenWrt 25.12.5
 
+# Manual only: every push used to start a ~70 minute build, including pushes
+# that only touched a log file.
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths-ignore:
-      - '**.md'
 
-# A push while a build is running supersedes it; do not pay for both.
+# A second dispatch supersedes the first; do not pay for both.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
