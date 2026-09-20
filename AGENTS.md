@@ -15,16 +15,17 @@ OpenWrt v25.12.5 检出里，然后编译出可刷写的 sysupgrade 镜像。
 ## 目录结构
 
 ```
-config/r28s.config          目标 .config 片段（rockchip/armv8 + 设备 + 文件系统 + kmod-r8169）
-scripts/build.sh            完整构建入口：clone → 注入 → 编译 → 只收集 SD 卡镜像
+config/r28s.config          目标 .config 片段（rockchip/armv8 + 设备 + LuCI + 文件系统）
+scripts/build.sh            完整构建入口：clone → 注入 → feeds → 编译 → 只收集 SD 卡镜像
 scripts/import-r28s-dts.py  从 patchew 拉 Linux R28S v6 补丁，抽出两个 DTS 写入 OpenWrt 树
 scripts/patch-openwrt.py    改 armv8.mk（加设备）和 uboot-rockchip/Makefile（升 U-Boot、加板级 target）
-scripts/validate-project.py 静态校验：脚本语法 + config 必选项 + OpenWrt 版本钉死
-.github/workflows/build.yml GitHub Actions：装依赖 → 校验 → 构建 → 上传 output/*
+scripts/validate-project.py 静态校验：脚本语法 + config 必选项 + feeds 步骤 + OpenWrt 版本钉死
+.github/workflows/build.yml GitHub Actions：仅手动触发，构建后把两张镜像发到 release
 VERSION                     一行人类可读的版本描述
 ```
 
-`.work/`（OpenWrt 检出）和 `output/`（产物）都被 `.gitignore` 忽略。
+`.work/`（OpenWrt 检出）、`output/`（产物）和 `release/`（发版用的改名副本）
+都被 `.gitignore` 忽略。
 
 ## 常用命令
 
@@ -43,6 +44,35 @@ python3 scripts/import-r28s-dts.py .work/openwrt
 本机是 macOS 时不要尝试完整构建，用 `validate-project.py` 做正确性检查，
 真正的构建交给 GitHub Actions 或 Linux 机器。
 
+## 包集从哪里来
+
+`config/r28s.config` 只管目标、设备、文件系统和几个显式包，镜像里绝大多数
+包来自两个地方：目标 profile 的 `DEFAULT_PACKAGES`（`include/target.mk`：
+base-files、dropbear、netifd、uci… 加上 `DEVICE_TYPE` 对应的一组），以及
+**feeds 里的包**。
+
+所以 `scripts/feeds update -a` + `install -a` 不能省：
+
+- LuCI 整个栈都在 `luci` feed 里。不装 feeds 就选不到，镜像里根本没有网页。
+- `scripts/feeds update` 会生成 `feeds/<name>.index`，`scripts/feeds` 的
+  `feed_config()` 据此产出带 `default y` 的 `config FEED_<name>` 符号。
+  `/etc/apk/repositories.d/distfeeds.list` 是按这些符号逐条 feed 生成的，
+  没有它们就只剩 core 和 base 两条（`include/feeds.mk` 的
+  `FeedSourcesAppendAPK`）。
+
+对照基线是官方同一个 target/subtarget 的 radxa E20C 镜像——它和 R28S 的
+`DEVICE_PACKAGES` 完全一样（都只有 `kmod-r8169`），所以两者的差别只在
+LuCI 栈。参考文件：
+
+- `https://downloads.openwrt.org/releases/25.12.5/targets/rockchip/armv8/openwrt-25.12.5-rockchip-armv8.manifest`
+- 同目录的 `config.buildinfo`（官方构建用的配置摘要）
+
+**官方 E20C 镜像里没有 `kmod-nf-conntrack-netlink`**，R28S 配置里那一条是
+额外要求，不是对齐 E20C 的一部分。官方镜像里的
+`luci-app-attendedsysupgrade` / `owut` / `attendedsysupgrade-common` 也**没有**
+照搬：attended sysupgrade 要查 `sysupgrade.openwrt.org`，而
+`friendlyarm_nanopi-r28s` 不在官方构建里，装了也用不了。
+
 ## CI 构建时间与缓存
 
 一次冷构建里，前面约 50 分钟几乎全花在编译上（clone 18 秒、download 约
@@ -51,16 +81,21 @@ python3 scripts/import-r28s-dts.py .work/openwrt
 
 workflow 里有三层缓存：
 
-1. **host tools + 交叉工具链**（`openwrt-toolchain-*`，稳定 key）。
-   缓存 `staging_dir/{host,toolchain-*}` 与 `build_dir/{host,toolchain-*}`。
+1. **host tools + 交叉工具链**（`openwrt-buildstate-*`，稳定 key，
+   key 含 `config/r28s.config` 的 hash）。缓存
+   `staging_dir/{host,toolchain-*}` 与 `build_dir/{host,toolchain-*}`。
    **三个 stamp 位置缺一不可**：OpenWrt 的依赖链是
    `.configured` → `.built` → `_installed`，前两个在 `build_dir/`，只有
    `_installed` 在 `staging_dir/`。少缓存 `build_dir/toolchain-*` 的话，
    `make` 会照旧从 configure 开始重建工具链，缓存等于白做。
-2. **ccache**（`ccache-*`，滚动 key）。`config/r28s.config` 里的
+2. **feeds 检出**（`openwrt-feeds-*`，key 只含 `scripts/build.sh`）。
+   `scripts/feeds update -a` 每次都要克隆 4 个 feed 仓库，而它与包配置
+   无关，只与 `build.sh` 里钉的 tag 有关，所以单独用一把稳定的 key。
+3. **ccache**（`ccache-*`，滚动 key）。`config/r28s.config` 里的
    `CONFIG_CCACHE=y` 同时作用于目标编译和 host 编译（`rules.mk:347`）。
-3. `dl/` **故意不缓存**：GitHub runner 的网络让 `make download` 只花约
-   1 分钟，缓存 1.5 GB 的收益抵不过恢复时间。
+
+`dl/` **故意不缓存**：GitHub runner 的网络让 `make download` 只花约
+1 分钟，缓存 1.5 GB 的收益抵不过恢复时间。
 
 `CONFIG_DEVEL=y` 必须和 `CONFIG_CCACHE=y` 一起出现。`CONFIG_CCACHE` 的
 prompt 是 `bool "Use ccache" if DEVEL`，DEVEL 关闭时它是不可见符号，
@@ -68,12 +103,12 @@ prompt 是 `bool "Use ccache" if DEVEL`，DEVEL 关闭时它是不可见符号�
 OpenWrt 官方 CI 同样先写 `CONFIG_DEVEL=y`。
 
 `build.sh` 会在重新 clone 前把 `CACHED_BUILD_STATE`（`staging_dir`、
-`build_dir`、`dl`）挪到一边再挪回来。**不要删掉这段逻辑**：缓存恢复进来
-的目录里没有 `.git`，不做保全的话 `rm -rf "${OW}"` 会顺手把 35 分钟的
-构建产物删掉，缓存就永远命中不了。
+`build_dir`、`dl`、`feeds`）挪到一边再挪回来。**不要删掉这段逻辑**：缓存
+恢复进来的目录里没有 `.git`，不做保全的话 `rm -rf "${OW}"` 会顺手把
+35 分钟的构建产物和 feed 检出全删掉，缓存就永远命中不了。
 
-缓存失效与清理：工具链缓存的 key 是 `hashFiles('config/r28s.config')`，
-改配置会自动换 key。要强制重建时删除缓存即可：
+改 `config/r28s.config` 会换掉 buildstate 的 key（触发一次冷编译），改
+`scripts/build.sh` 会换掉 feeds 的 key。要强制重建时删缓存：
 
 ```bash
 gh cache delete --all --repo akb21/nanopi-r28s-openwrt

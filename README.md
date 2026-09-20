@@ -46,11 +46,31 @@ The final images are copied to `output/`.
 
 ## GitHub Actions
 
-Push the repository to GitHub and run:
+The workflow is manual-only; pushing does not start a build.
 
 `Actions -> Build NanoPi R28S OpenWrt 25.12.5 -> Run workflow`
 
-The workflow installs the U-Boot/OpenWrt host dependencies, validates the project, builds OpenWrt, and uploads every artifact from `output/`.
+It installs the host dependencies, validates the project, builds OpenWrt, and
+publishes the two sysupgrade images as separate assets of a GitHub release
+tagged with the build date, e.g. `25.12.5-20260920`:
+
+- `openwrt-...-friendlyarm_nanopi-r28s-squashfs-sysupgrade-20260920.img.gz`
+- `openwrt-...-friendlyarm_nanopi-r28s-ext4-sysupgrade-20260920.img.gz`
+
+Each image is downloadable on its own. A second build on the same day replaces
+that day's assets.
+
+## Packages
+
+The image carries the same package set as the stock OpenWrt image for the Radxa
+E20C, which shares this target, subtarget and `DEVICE_PACKAGES`. That means the
+full LuCI web interface plus the standard router packages. It additionally
+includes `kmod-nf-conntrack-netlink`, which the stock image does not.
+
+Because the feeds are installed and enabled, `distfeeds.list` inside the image
+points at the official rockchip/armv8 package repositories, so `apk`/`opkg` and
+the LuCI package manager can install further packages from
+`downloads.openwrt.org`.
 
 ## Important U-Boot note
 
