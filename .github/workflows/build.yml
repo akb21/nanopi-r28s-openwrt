@@ -45,12 +45,12 @@ jobs:
       # Host tools and the cross toolchain are ~35 of the ~50 minutes the build
       # spends before it even starts compiling packages. They are a pure
       # function of the OpenWrt tag and the config, so cache them verbatim.
-      # All three stamp locations must be restored: OpenWrt gates a component on
-      # .configured -> .built in build_dir and only _installed in staging_dir,
-      # so a partial restore rebuilds the component anyway.
+      # All three stamp locations have to be restored: OpenWrt gates a component
+      # on .configured -> .built in build_dir and only _installed in
+      # staging_dir, so a partial restore rebuilds the component anyway.
       # build.sh preserves these across the re-clone.
       - name: Restore host tools and toolchain
-        id: toolchain
+        id: buildstate
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -58,7 +58,16 @@ jobs:
             .work/openwrt/staging_dir/toolchain-*
             .work/openwrt/build_dir/host
             .work/openwrt/build_dir/toolchain-*
-          key: openwrt-toolchain-${{ hashFiles('config/r28s.config') }}
+          key: openwrt-buildstate-${{ hashFiles('config/r28s.config') }}
+
+      # Feed checkouts cost a few minutes of cloning per run and do not depend
+      # on the config at all, only on the pinned OpenWrt tag in build.sh.
+      - name: Restore OpenWrt feeds
+        id: feeds
+        uses: actions/cache/restore@v4
+        with:
+          path: .work/openwrt/feeds
+          key: openwrt-feeds-${{ hashFiles('scripts/build.sh') }}
 
       # ccache deliberately uses a rolling key: it has to be rewritten every run
       # to keep growing. restore-keys always gives the newest matching prefix.
@@ -82,9 +91,14 @@ jobs:
         if: always()
         run: |
           if [[ -d .work/openwrt/staging_dir && -d .work/openwrt/build_dir ]]; then
-            echo "toolchain=true" >> "$GITHUB_OUTPUT"
+            echo "buildstate=true" >> "$GITHUB_OUTPUT"
           else
-            echo "toolchain=false" >> "$GITHUB_OUTPUT"
+            echo "buildstate=false" >> "$GITHUB_OUTPUT"
+          fi
+          if [[ -d .work/openwrt/feeds ]]; then
+            echo "feeds=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "feeds=false" >> "$GITHUB_OUTPUT"
           fi
           if [[ -d .ccache ]]; then
             echo "ccache=true" >> "$GITHUB_OUTPUT"
@@ -93,7 +107,7 @@ jobs:
           fi
 
       - name: Save host tools and toolchain
-        if: always() && steps.cacheable.outputs.toolchain == 'true' && steps.toolchain.outputs.cache-hit != 'true'
+        if: always() && steps.cacheable.outputs.buildstate == 'true' && steps.buildstate.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
           path: |
@@ -101,7 +115,14 @@ jobs:
             .work/openwrt/staging_dir/toolchain-*
             .work/openwrt/build_dir/host
             .work/openwrt/build_dir/toolchain-*
-          key: openwrt-toolchain-${{ hashFiles('config/r28s.config') }}
+          key: openwrt-buildstate-${{ hashFiles('config/r28s.config') }}
+
+      - name: Save OpenWrt feeds
+        if: always() && steps.cacheable.outputs.feeds == 'true' && steps.feeds.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: .work/openwrt/feeds
+          key: openwrt-feeds-${{ hashFiles('scripts/build.sh') }}
 
       - name: Save ccache
         if: always() && steps.cacheable.outputs.ccache == 'true'
