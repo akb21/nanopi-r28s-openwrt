@@ -5,6 +5,10 @@ name: Build NanoPi R28S OpenWrt 25.12.5
 on:
   workflow_dispatch:
 
+# Creating the release needs a token that may write repository contents.
+permissions:
+  contents: write
+
 # A second dispatch supersedes the first; do not pay for both.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -106,10 +110,38 @@ jobs:
           path: .ccache
           key: ccache-${{ github.ref }}-${{ github.run_id }}
 
-      - name: Upload firmware
-        uses: actions/upload-artifact@v4
-        with:
-          name: nanopi-r28s-openwrt-25.12.5
-          path: output/*
-          if-no-files-found: error
-          retention-days: 30
+      # The two sysupgrade images are published as separate release assets
+      # rather than as one artifact zip, so each can be downloaded on its own.
+      # The build date goes into the tag and into the file names so builds on
+      # different days never collide; a second build on the same day replaces
+      # the assets instead of failing.
+      - name: Publish firmware release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          stamp="$(date -u +%Y%m%d)"
+          tag="25.12.5-${stamp}"
+
+          mkdir -p release
+          shopt -s nullglob
+          for f in output/*-sysupgrade.img.gz; do
+            base="$(basename "$f" .img.gz)"
+            cp -v "$f" "release/${base}-${stamp}.img.gz"
+          done
+
+          assets=( release/*.img.gz )
+          if (( ${#assets[@]} != 2 )); then
+            echo "ERROR: expected 2 images, found ${#assets[@]}" >&2
+            exit 2
+          fi
+
+          notes="Built at $(date -u +%Y-%m-%dT%H:%M:%SZ) from ${GITHUB_SHA}."
+
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "${assets[@]}" --clobber
+          else
+            gh release create "$tag" "${assets[@]}" \
+              --title "NanoPi R28S OpenWrt 25.12.5 (${stamp})" \
+              --notes "$notes"
+          fi
