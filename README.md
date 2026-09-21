@@ -2,6 +2,36 @@
 
 Private/test-only build for FriendlyElec NanoPi R28S (RK3528A).
 
+## Disclaimer / 免责声明
+
+**English**
+
+This is an unofficial, private, test-only build. It is not affiliated with,
+endorsed by or supported by the OpenWrt project, FriendlyElec or Radxa. The
+images are assembled from upstream sources plus local modifications and have
+been tested on one board by the author and nobody else.
+
+Flashing firmware can leave a device unbootable, and writing an image to the
+wrong device destroys everything on it. Everything here is provided "as is",
+without warranty of any kind, express or implied. The author accepts no
+liability for bricked hardware, lost data or any other damage arising from
+its use.
+
+Proceed entirely at your own risk, and confirm the target device before
+writing anything to it.
+
+**中文**
+
+本项目是非官方的私有测试构建，与 OpenWrt 项目、FriendlyElec、Radxa 均无
+隶属关系，也未获得其认可或支持。镜像由上游源码加本地修改拼装而成，只在
+作者的一块板子上验证过，没有第二个人复现。
+
+刷写固件可能导致设备无法启动；把镜像写到错误的设备上会毁掉该设备上的
+全部数据。本项目按"现状"提供，不附带任何形式的明示或默示担保。因使用
+本项目而造成的设备变砖、数据丢失或其他任何损害，作者不承担责任。
+
+请自行承担全部风险，写入前务必确认目标设备。
+
 ## Build target
 
 - OpenWrt: 25.12.5
